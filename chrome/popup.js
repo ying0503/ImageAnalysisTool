@@ -114,7 +114,7 @@ async function auditImage(image) {
   const isWebP = image.src.toLowerCase().includes('.webp') || 
                  image.src.toLowerCase().includes('format,webp');
   if (!isWebP) {
-    issues.push({ text: '需WebP', level: 'yellow' });
+    issues.push({ text: '非WebP', level: 'yellow' });
   }
   
   // 检查尺寸是否超过父元素2倍
@@ -133,9 +133,9 @@ async function auditImage(image) {
   const fileSizeKB = fileSize / 1024;
   
   if (fileSizeKB > 100) {
-    issues.push({ text: `体积过大(${fileSizeKB.toFixed(1)}KB)`, level: 'red' });
+    issues.push({ text: `(${fileSizeKB.toFixed(1)}KB)`, level: 'red' });
   } else if (fileSizeKB > 50) {
-    issues.push({ text: `体积过大(${fileSizeKB.toFixed(1)}KB)`, level: 'yellow' });
+    issues.push({ text: `(${fileSizeKB.toFixed(1)}KB)`, level: 'yellow' });
   }
   
   return {
