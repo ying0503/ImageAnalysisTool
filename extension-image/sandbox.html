@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:sans-serif; font-size:12px; }
+#c { min-height:40px; text-align:center; padding:6px; }
+.s { color:#64748b; } .e { color:#dc2626; } .o { color:#059669; }
+</style>
+</head>
+<body>
+<div id="c"><div class="s">Loading payment component...</div></div>
+<script>
+(function(){
+  var c = document.getElementById('c');
+  var clientId, amount, currency, account, apiBase;
+
+  try {
+    var q = {};
+    (location.search || '').replace(/[?&]([^=]+)=([^&]*)/g, function(_,k,v){ q[decodeURIComponent(k)] = decodeURIComponent(v); });
+    clientId = q.clientId;
+    account = q.account || '';
+    amount = q.amount || '6.99';
+    currency = q.currency || 'USD';
+    apiBase = q.apiBase || '';
+  } catch(e) {}
+
+  function boot() {
+    if (!clientId || clientId === 'YOUR_PAYPAL_CLIENT_ID') {
+      c.innerHTML = '<div class="e">Please configure PAYPAL_CLIENT_ID</div>';
+      return;
+    }
+    var s = document.createElement('script');
+    s.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(clientId) + '&currency=' + currency + '&intent=capture';
+    s.onload = function() {
+      paypal.Buttons({
+        createOrder: function() {
+          return fetch(apiBase + '/create-order?account=' + encodeURIComponent(account) + '&amount=' + amount)
+            .then(function(r){ return r.json(); })
+            .then(function(d){ if(!d.id) throw new Error('create-order failed'); return d.id; });
+        },
+        onApprove: function(data) {
+          fetch(apiBase + '/capture-order?orderId=' + data.orderID)
+            .then(function(r){ return r.json(); })
+            .then(function(cap){
+              window.parent.postMessage({ type:'paypal-result', status:cap.status, orderId:data.orderID }, '*');
+            });
+        },
+        onCancel: function() { window.parent.postMessage({ type:'paypal-cancel' }, '*'); },
+        onError: function(err) { window.parent.postMessage({ type:'paypal-error', error:err.toString() }, '*'); }
+      }).render('#c');
+    };
+    s.onerror = function() {
+      c.innerHTML = '<div class="e">PayPal SDK network load failed</div>';
+    };
+    document.body.appendChild(s);
+  }
+
+  if (clientId) { boot(); return; }
+
+  c.innerHTML = '<div class="s">Waiting for initialization...</div>';
+  var timer = setTimeout(function(){
+    c.innerHTML = '<div class="e">Initialization timeout. Please close and retry.</div>';
+  }, 15000);
+
+  window.addEventListener('message', function onMsg(e){
+    if (e.data && e.data.type === 'init') {
+      clearTimeout(timer);
+      clientId = e.data.clientId;
+      account = e.data.account || '';
+      amount = e.data.amount || '6.99';
+      currency = e.data.currency || 'USD';
+      apiBase = e.data.apiBase || '';
+      boot();
+    }
+  });
+
+  window.parent.postMessage({ type: 'sandbox-ready' }, '*');
+})();
+</script>
+</body>
+</html>

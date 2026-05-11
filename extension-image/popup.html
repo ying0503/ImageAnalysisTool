@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Image Analysis Tool</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-main">
+        <div class="logo">
+          <h3><img src="logo.png" style="width:22px;height:22px;vertical-align:middle;margin-right:4px"> Image Analysis Tool</h3>
+          <div class="stats-bar" id="stats">
+            Loading...
+          </div>
+        </div>
+        <div class="auth-box" id="authBox">
+          <a href="#" id="loginBtn">Sign In</a>
+          <span class="divider-v">|</span>
+          <a href="#" id="registerBtn">Sign Up</a>
+        </div>
+      </div>
+    </header>
+    
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4>Sign In</h4>
+          <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <button id="googleLoginBtn" class="google-btn">
+            <svg viewBox="0 0 48 48" width="20" height="20"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24s.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path><path fill="none" d="M0 0h48v48H0z"></path></svg>
+            Sign in with Google
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <main>
+      <!-- Image List -->
+      <div id="imagesTab" class="tab-content active">
+        <div class="section">
+          <div class="image-grid" id="normalList"></div>
+        </div>
+        
+        <div id="specialContainer" style="display:none">
+          <div class="divider">
+            <span>Vectors &amp; Base64</span>
+          </div>
+          
+          <div class="section">
+            <div class="image-grid small" id="specialList"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Payment Modal -->
+    <div id="payModal" class="modal">
+      <div class="modal-content pay-modal-content">
+        <div class="modal-header">
+          <h4>Compare Plans</h4>
+          <span class="close-pay-modal">&times;</span>
+        </div>
+        <div class="modal-body pay-body">
+          <div class="billing-toggle">
+            <button class="billing-option active" data-interval="month">Monthly</button>
+            <button class="billing-option" data-interval="year">Yearly</button>
+          </div>
+          <div class="plan-compare">
+            <div class="plan-card free">
+              <h5>Free</h5>
+              <ul>
+                <li>✅ Image list capture</li>
+                <li>✅ Basic size detection</li>
+                <li>❌ Optimization suggestions</li>
+                <li>❌ Image location</li>
+                <li>❌ Hidden image detection</li>
+              </ul>
+              <div class="plan-price">Free</div>
+            </div>
+            <div class="plan-card pro">
+              <h5>Pro</h5>
+              <ul>
+                <li>✅ All Free features</li>
+                <li>✅ <strong>WebP/AVIF suggestions</strong></li>
+                <li>✅ <strong>One-click image location</strong></li>
+                <li>✅ <strong>Hidden/transparent image detection</strong></li>
+                <li>✅ <strong>Size/dimension anomaly audit</strong></li>
+              </ul>
+              <div class="plan-price"><span id="proPrice">$6.99</span><span id="proInterval">/month</span></div>
+              <div class="plan-saving" id="planSaving" style="display:none">Save 40% vs monthly</div>
+              <button id="buyProBtn" class="confirm-pay-btn">Subscribe with PayPal</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

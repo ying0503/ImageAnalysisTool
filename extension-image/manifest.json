@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "Image Analysis Tool",
+  "version": "1.0.3",
+  "description": "Audit and analyze all image assets on the current page",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "identity"
+  ],
+  "oauth2": {
+    "client_id": "474345437304-4dcnqm1j7upodjqgjq8ctuiic7hndhe3.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email",
+      "https://www.googleapis.com/auth/userinfo.profile"
+    ]
+  },
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "logo.png",
+    "48": "logo.png",
+    "128": "logo.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Image Analysis Tool",
+    "default_icon": {
+      "16": "logo.png",
+      "48": "logo.png",
+      "128": "logo.png"
+    }
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' https://www.googleapis.com https://divine-tooth-04b7.yingganfei.workers.dev https://www.google-analytics.com"
+  }
+}

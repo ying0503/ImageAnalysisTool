@@ -1,0 +1,7 @@
+name = "divine-tooth-04b7"
+main = "worker.js"
+compatibility_date = "2024-12-01"
+
+[[kv_namespaces]]
+binding = "PRO_ACCOUNTS"
+id = "7316fe62454f495f95de7a2525cf7f86"
